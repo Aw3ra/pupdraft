@@ -1,11 +1,11 @@
 import http from 'http';
 
 
-let path = '/chat/thread_k2ETd51How8sctoeWKW76IC5';
-// let path = '/add/1';
+let path = '/chat/thread_L2ecZPtUsOFaz3Hf46OTR7tk';
+// let path = '/add/cyfrin';
 
 const postData = JSON.stringify({
-    message: 'What tools will be used through this educational journey? Respond in list format'
+    message: 'who are you?'
 })
 
 const options = {

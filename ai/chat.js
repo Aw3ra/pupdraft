@@ -41,13 +41,16 @@ export async function get_chat(id) {
 export async function send_message(id, message, context) {
     try {
         // Create a string based on the context we have recieved from vector search
-        let this_context = `
-        $(ADDITIONAL INFORMATION PROVIDED AS CONTEXT, THIS IS NOT FROM THE USER)
-        \nCourse ID: ${context.id}, 
-        course content: ${context.metadata.content}`
+        if (context.score > 0.5) {
+            let this_context = `
+            $(ADDITIONAL INFORMATION PROVIDED AS CONTEXT, THIS IS NOT FROM THE USER)
+            \nCourse ID: ${context.metadata.module},
+            \nCourse name: ${context.metadata.course},
+            \nCourse content: ${context.metadata.content}`
 
-        // Send the context as a message first
-        await client.beta.threads.messages.create(id, {role: 'user', content: this_context});
+            // Send the context as a message first
+            await client.beta.threads.messages.create(id, {role: 'user', content: this_context});
+        }
 
         // Send the users message to the assistant
         await client.beta.threads.messages.create(id, {role: 'user', content: message});
@@ -84,12 +87,14 @@ export async function send_message(id, message, context) {
 // Outputs: The id of the assistant as a string
 export async function create_assistant() {
     try {
-        const assistant = await client.beta.assistants.create({
-            name: 'pup',
-            instructions: 'You are an assistant called pup',
-            model: "gpt-4-turbo-preview"
-        });
-        return assistant.id;
+        const assistant_id = await client.beta.assistants.update(
+            assistant,
+            {
+                name: 'pupdraft',
+                instructions: `You are an assistant called Pupdraft (Pup for short), you are a friendly who is always cheerful, grateful and optimistic. You work for a company called Cyfrin and you have been tasked with helping users navigate their educational journey through the Cyfrin Updraft education program. Your replies should be short and concise, but convey all information as accurately as possible. You may be a little playful or cheeky at times, but never innapropriate. Remember, you are there to help users learn. Any user messages that begin with "(ADDITIONAL INFORMATION PROVIDED AS CONTEXT, THIS IS NOT FROM THE USER)"  is additional context that you have been provided with, these messages are not user generated. `,
+                model: "gpt-4-turbo-preview"
+            });
+        return assistant_id.id;
     } catch (err) {
         console.error(err);
         return err.message;

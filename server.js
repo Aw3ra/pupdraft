@@ -44,14 +44,14 @@ app.get('/add/:limit', async (req, res) => {
     console.log("Converting data")
     let new_data = await conversion(response);
     // Convert this to a string literally just to write it to a file
-    // console.log("Writing data to file")
-    // let new_data_string = JSON.stringify(new_data, null, 4);
-    // fs.writeFile('data_collection/data.json', new_data_string, (err) => {
-    //     if (err) {
-    //         console.error(err);
-    //         return;
-    //     }55555555555555
-    // });
+    console.log("Writing data to file")
+    let new_data_string = JSON.stringify(new_data, null, 4);
+    fs.writeFile('data_collection/data.json', new_data_string, (err) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+    });
     // Upsert the data to the pinecone database
     console.log("Upserting data to pinecone")
     try{

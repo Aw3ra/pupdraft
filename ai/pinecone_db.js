@@ -60,7 +60,9 @@ export async function conversion(data) {
                     "values": await create_vectors(question),
                     "metadata": {
                         "content": data[name][module],
-                        "question": question
+                        "question": question,
+                        "module": module,
+                        "course": name
                     }
                 }
                 vectors.push(vector);
