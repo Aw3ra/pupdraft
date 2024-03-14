@@ -1,5 +1,5 @@
 import { Pinecone } from '@pinecone-database/pinecone';
-import { create_vectors } from './vectors.js';
+import { create_vectors, get_questions } from './vectors.js';
 const pc = new Pinecone({
     apiKey: process.env.PINECONE_KEY,
 });
@@ -53,14 +53,18 @@ export async function conversion(data) {
     let vectors = [];
     for (let name in data) {
         for (let module in data[name]) {
-            let vector = {
-                "id": module,
-                "values": await create_vectors(data[name][module]),
-                "metadata": {
-                    "content": data[name][module]
+            let questions = await get_questions(data[name][module]);
+            for (let question of questions) {
+                let vector = {
+                    "id": module,
+                    "values": await create_vectors(question),
+                    "metadata": {
+                        "content": data[name][module],
+                        "question": question
+                    }
                 }
+                vectors.push(vector);
             }
-            vectors.push(vector);
         }
     }
     return vectors;
