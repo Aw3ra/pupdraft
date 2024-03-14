@@ -2,7 +2,7 @@ import http from 'http';
 
 
 let path = '/chat/thread_k2ETd51How8sctoeWKW76IC5';
-// let path = '/add/cyfrin';
+// let path = '/add/1';
 
 const postData = JSON.stringify({
     message: 'What tools will be used through this educational journey? Respond in list format'

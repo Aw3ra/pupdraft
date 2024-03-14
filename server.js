@@ -38,18 +38,22 @@ app.post('/create-chat', async (req, res) => {
 // Route for adding courses to the database
 app.get('/add/:limit', async (req, res) => {
     // Limit is the amount of courses starting from 0 you want to add, later we can add offset to start from a certain course
+    console.log("Adding courses to the database")
     let response = await get_course(req.params.limit);
     // Conver the data from json format to an array of documents for pinecone
+    console.log("Converting data")
     let new_data = await conversion(response);
     // Convert this to a string literally just to write it to a file
-    let new_data_string = JSON.stringify(new_data, null, 4);
-    fs.writeFile('data_collection/data.json', new_data_string, (err) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-    });
+    // console.log("Writing data to file")
+    // let new_data_string = JSON.stringify(new_data, null, 4);
+    // fs.writeFile('data_collection/data.json', new_data_string, (err) => {
+    //     if (err) {
+    //         console.error(err);
+    //         return;
+    //     }55555555555555
+    // });
     // Upsert the data to the pinecone database
+    console.log("Upserting data to pinecone")
     try{
         let vectors = await upsert_vectors(new_data);
         // Should return an amount of vectors that were added, this number will be different from the amount of courses as each will have sup modules
@@ -78,7 +82,7 @@ app.post('/chat/:id', async (req, res) => {
     // Can change this later to only include a result above a certain accuracy and/or include multiple results when documents are smaller
     let thread = await send_message(chat, req.body.message, knn.results.matches[0]);
     // Return the conversation
-    res.send(thread);
+    res.send(thread[0].content);
 });
 
 // Route for creating an assistant
