@@ -12,7 +12,7 @@ let client = new openai({apiKey: open_ai_key});
 export async function create_chat() {
     try {
         const thread = await client.beta.threads.create();
-        return thread.id ;
+        return thread.id;
     } catch (err) {
         return err.message;
     }

@@ -19,6 +19,8 @@
   },
   "type": "module",
   "nodemonConfig": {
-    "ignore": ["courses.json"]
+    "ignore": [
+      "courses.json"
+    ]
   }
 }

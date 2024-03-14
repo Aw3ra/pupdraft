@@ -72,7 +72,8 @@ app.post('/chat/:id', async (req, res) => {
     // Turn the message from the body into a vector for querying
     let query_vector = await create_vectors(req.body.message);
     // Search the pinecone database for the closest vectors to the message using cosine similarity
-    let knn = await search_vector(query_vector, 5);
+    let knn = await search_vector(query_vector, 6);
+    
     // Send the message to the assistant, include both the message and the top result for additional context
     // Can change this later to only include a result above a certain accuracy and/or include multiple results when documents are smaller
     let thread = await send_message(chat, req.body.message, knn.results.matches[0]);
