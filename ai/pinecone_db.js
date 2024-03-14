@@ -17,6 +17,7 @@ const index = pc.index('pupdraft');
 //         }
 //     }
 // ]
+// Output: An amount of vectors that were added
 export async function upsert_vectors(vectors) {
     try {
         let upserts = await index.upsert(vectors);
@@ -34,7 +35,8 @@ export async function search_vector(vector, k) {
     try {
         const results = await index.query({
             vector: vector,
-            k: k
+            topK: k,
+            includeMetadata: true
         });
         return { success: true, results: results };
     } catch (err) {
@@ -45,6 +47,8 @@ export async function search_vector(vector, k) {
 // Function to convert a json object to a vectors in the right format for uploading
 // Input: data - the json object to be converted
 // Output: A list of vectors
+// TODO: Add the id to the metadata for flitering (later)
+// TODO: Generate 5-10 questions based on the content to create vectors for instead, this gives us a much better response when querying as questions become more alike
 export async function conversion(data) {
     let vectors = [];
     for (let name in data) {

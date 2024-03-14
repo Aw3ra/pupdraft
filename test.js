@@ -1,20 +1,18 @@
 import http from 'http';
 
 
-// let path = '/chat/thread_k2ETd51How8sctoeWKW76IC5';
-let path = '/add/cyfrin';
-
-
+let path = '/chat/thread_k2ETd51How8sctoeWKW76IC5';
+// let path = '/add/cyfrin';
 
 const postData = JSON.stringify({
-    message: 'New message'
+    message: 'What tools will be used through this educational journey? Respond in list format'
 })
 
 const options = {
     hostname: 'localhost',
     port: 3000,
     path: path,
-    method: 'GET',
+    method: 'POST',
     headers : {
         'Content-Type': 'application/json',
         'apikey': '1234',

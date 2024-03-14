@@ -1,12 +1,12 @@
-import { Octokit } from "octokit";
-// Import node fetch
 import fetch from 'node-fetch';
-
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
-const limit = 4
-
-export async function get_course(link) {
+// Function to get the course content from the github repo
+// Description: Essentially just a recursive call through directories to get the content of each module in each course
+// Input: limit - the amount of courses to get
+// Output: A list of courses
+// TODO: Add offset to start from a certain course. There's probably a better way to do this but gotta go fast
+export async function get_course(limit) {
     let headers = {
         'Authorization': `token ${GITHUB_TOKEN}`
     }

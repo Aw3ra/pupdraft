@@ -4,7 +4,7 @@ let client = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
 
 
 // Function that gets a list of vectors from a single content string
-// Input: content: string
+// Input: content - string
 // Output: array of vectors
 export async function create_vectors(content) {
     try {
@@ -20,9 +20,9 @@ export async function create_vectors(content) {
 }
 
 // Function to get 5-10 questions from openai based on the content of a module
-// Input: content: string
+// Input: content - string
 // Output: array of questions
-// TODO: Needs to work lol
+// TODO: Need to get this working, should just be a case of setting up an assistant to do this and then calling it. Prompt should ask it to generate 5-10 thoughtful questions that a user could ask if the content was the answer. Similar to jeopardy style questions
 export async function get_questions(content) {
     try {
         const questions = await client.completions.create({
